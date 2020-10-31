@@ -18,6 +18,7 @@ app.get('/budget',async(req,res)=>{
     try {
         const budget_data= await budgetModel.find();
             res.json(budget_data)
+            mongoose.connection.close()
     } catch(err){
         res.json({message:err});
     } 
@@ -32,6 +33,7 @@ app.post('/budget',async(req,res)=> {
     try {
         const saved_data= await newData.save();
             res.json(saved_data)
+            
     } catch(err){
         res.json({message:err});
     } 
