@@ -12,7 +12,7 @@ const budgetSchema = new mongoose.Schema({
         
     },
     color: {
-        
+        required: true 
     }
 
 }, { collection: 'budget'})

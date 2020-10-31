@@ -12,9 +12,6 @@ app.use(express.urlencoded({extended:true}));
 app.use('/',express.static('public'));
 let url = 'mongodb://localhost:27017/personal_budget';
 
-
-
-
         
 app.get('/budget',async(req,res)=>{
     mongoose.connect(url,{ useUnifiedTopology: true ,useNewUrlParser: true})
