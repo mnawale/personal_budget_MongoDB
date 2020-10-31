@@ -4,6 +4,7 @@ const budgetSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+        unique: true
         
     },
     budget: {
@@ -12,7 +13,10 @@ const budgetSchema = new mongoose.Schema({
         
     },
     color: {
-        required: true 
+        type: String,
+        required: true,
+        maxlength: 7,
+        validate: /^(#)[0-9a-fA-F]+$/
     }
 
 }, { collection: 'budget'})

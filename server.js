@@ -12,27 +12,15 @@ app.use(express.urlencoded({extended:true}));
 app.use('/',express.static('public'));
 let url = 'mongodb://localhost:27017/personal_budget';
 
-        
+mongoose.connect(url,{ useUnifiedTopology: true ,useNewUrlParser: true})       
 app.get('/budget',async(req,res)=>{
-    mongoose.connect(url,{ useUnifiedTopology: true ,useNewUrlParser: true})
-        .then(()=>{
-            console.log("Connected to MongoDB Successfully");
-            budgetModel.find({})
-                .then((data)=>{
-                console.log(data)
-                res.json(data)
-                res.send(data)
-                mongoose.connection.close();
-                })
-                .catch((connectionError)=>{
-                    console.log(connectionError);
-                })
-              
-        })
-        .catch((connectionError)=>{
-            console.log(connectionError);
-
-        } )
+    
+    try {
+        const budget_data= await budgetModel.find();
+            res.json(budget_data)
+    } catch(err){
+        res.json({message:err});
+    } 
 });
 
 app.post('/budget',async(req,res)=> {
@@ -41,15 +29,12 @@ app.post('/budget',async(req,res)=> {
         budget: req.body.budget,
         color: req.body.color
     });
-    budgetModel.insertMany(newData)
-        .then((data)=>{
-            console.log(data)
-            res.send(data)
-            mongoose.connection.close();
-        })
-        .catch((connectionError)=>{
-            console.log(connectionError);
-        })
+    try {
+        const saved_data= await newData.save();
+            res.json(saved_data)
+    } catch(err){
+        res.json({message:err});
+    } 
 });
 
 app.use(cors());
